@@ -1,0 +1,1 @@
+- mengapa file Post di model tidak bisa dideteksi di tinker
