@@ -14,4 +14,9 @@ class Post extends Model
     
     //tidak dapat mengisi value id tetapi yang lain boleh
     protected $guarded = ['id'];
+
+    //menghubungkan tabel : mengembalikan nilai, 1 Post hanya Memiliki 1 Category
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
