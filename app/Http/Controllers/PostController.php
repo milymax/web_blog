@@ -12,8 +12,12 @@ class PostController extends Controller
     public function index() 
     {
         return view('posts', [
-            "title" => "Posts",
-            "posts" => Post::all()
+            "title" => "All Posts",
+            "posts" => Post::latest()->get()
+            // "posts" => Post::with('author','category')->latest()->get()
+            //dengan with() memeungkinkan untuk memanggil query Post sekaligus author dan category
+            //sehingga bisa mempersingkat proses yang dinamakan eagle Loading
+            //contoh LazyEagerLoading bisa dilihat di /web.php
         ]);
     }
 

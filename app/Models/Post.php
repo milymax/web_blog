@@ -14,9 +14,18 @@ class Post extends Model
     
     //tidak dapat mengisi value id tetapi yang lain boleh
     protected $guarded = ['id'];
+    protected $with = ['category', 'author'];
+    // "posts" => Post::with('author','category')->latest()->get()
+        //dengan with() memeungkinkan untuk memanggil query Post sekaligus author dan category
+        //sehingga bisa mempersingkat proses yang dinamakan eagle Loading
+        //contoh LazyEagerLoading bisa dilihat di /web.php
 
     //menghubungkan tabel : mengembalikan nilai, 1 Post hanya Memiliki 1 Category
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function author(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
