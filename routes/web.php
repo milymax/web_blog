@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home', [
-        "title" => "Home"
+        "title" => "Home",
+        'active' => 'home'
     ]);
 });
 
@@ -29,7 +30,8 @@ Route::get('/about', function () {
         "title" => "About",
         "name" => "milymax",
         "email" => "hellomily@gmail.com",
-        "image" => "cat.jpeg"
+        "image" => "cat.jpeg",
+        'active' => 'about'
     ]);
 });
 
@@ -39,18 +41,19 @@ Route::get('/posts', [PostController::class, 'index']);
 // halaman single post
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
-Route::get('/categories',function(){
-    return  view('caegories'. [
+Route::get('/categories', function () {
+    return view('categories', [
         'title' => 'Post Categories',
         'active' => 'categories',
-        'categories' => category::all()
+        'categories' => Category::all()
     ]);
 });
 
 
-Route::get('/categories/{category:slug}', function(Category $category) {
-    return view('posts' , [
+Route::get('/categories/{category:slug}', function (Category $category) {
+    return view('posts', [
         'title' => "Post by Category : $category->name",
+        'active' => 'categories',
         'posts' => $category->posts->load('category', 'author'),
         //agar tidak melakukan query berulang-ulang atau masalah n+1 maka digunakan load
         //tidak bisa langsung menggunakan with() karena ini adalah routesmodelbinding
@@ -59,9 +62,10 @@ Route::get('/categories/{category:slug}', function(Category $category) {
     ]);
 });
 
-Route::get('/authors/{author:username}', function(User $author){
+Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
         'title' => "Post by Author : $author->name",
+        'active' => 'posts',
         'posts' => $author->posts->load('category', 'author'),
         //fitur contoh eager loading bisa dilihat di /PostController.php
     ]);

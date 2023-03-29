@@ -13,6 +13,7 @@ class PostController extends Controller
     {
         return view('posts', [
             "title" => "All Posts",
+            //active untuk semua halaman posts
             "posts" => Post::latest()->get()
             // "posts" => Post::with('author','category')->latest()->get()
             //dengan with() memeungkinkan untuk memanggil query Post sekaligus author dan category
@@ -20,11 +21,12 @@ class PostController extends Controller
             //contoh LazyEagerLoading bisa dilihat di /web.php
         ]);
     }
-
+    
     public function show(Post $post)
     {
         return view('post', [
             "title" => "Single Post",
+            'active' => 'posts',
             "post" => $post
         ]);
     }
