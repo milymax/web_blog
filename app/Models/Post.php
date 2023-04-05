@@ -20,6 +20,9 @@ class Post extends Model
         //sehingga bisa mempersingkat proses yang dinamakan eagle Loading
         //contoh LazyEagerLoading bisa dilihat di /web.php
 
+
+    
+        
     //menghubungkan tabel : mengembalikan nilai, 1 Post hanya Memiliki 1 Category
     public function category(){
         return $this->belongsTo(Category::class);
