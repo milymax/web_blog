@@ -32,11 +32,15 @@ class Post extends Model
 
         //mencari berdasarkan search di all post
         //'??' jika ada jalankan jika tidak ada false atau tidak dijalankan
-        $query->when($filters['search'] ?? false, function($query, $search){
-            return $query->where('title', 'like', '%' . $search . '%')
-            ->orWhere('body', 'like', '%' . $search . '%');
+
+        //menggunakan funtion agar pencariannya berdasarkan categorynya masuk ke grup query 
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%');
+            });
         });
-        
+
         //mencari berdasarkan search di dalam post yang sudah ada cateogorynya 
         //versi callback
         $query->when($filters['category'] ?? false, function($query, $category){

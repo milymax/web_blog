@@ -49,24 +49,25 @@ Route::get('/categories', function () {
     ]);
 });
 
+//dibawah ini tidak terpakai karena sudah digantikan di PostController
 
-Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('posts', [
-        'title' => "Post by Category : $category->name",
-        'active' => 'categories',
-        'posts' => $category->posts->load('category', 'author'),
-        //agar tidak melakukan query berulang-ulang atau masalah n+1 maka digunakan load
-        //tidak bisa langsung menggunakan with() karena ini adalah routesmodelbinding
-        //jadi yang sebelumnya melakukan query berulang - ulang bisa diringkas menjadi 4 saja 
-        //bisa di tes menggunakan clockwork
-    ]);
-});
+// Route::get('/categories/{category:slug}', function (Category $category) {
+//     return view('posts', [
+//         'title' => "Post by Category : $category->name",
+//         'active' => 'categories',
+//         'posts' => $category->posts->load('category', 'author'),
+//         //agar tidak melakukan query berulang-ulang atau masalah n+1 maka digunakan load
+//         //tidak bisa langsung menggunakan with() karena ini adalah routesmodelbinding
+//         //jadi yang sebelumnya melakukan query berulang - ulang bisa diringkas menjadi 4 saja 
+//         //bisa di tes menggunakan clockwork
+//     ]);
+// });
 
-Route::get('/authors/{author:username}', function (User $author) {
-    return view('posts', [
-        'title' => "Post by Author : $author->name",
-        'active' => 'posts',
-        'posts' => $author->posts->load('category', 'author'),
-        //fitur contoh eager loading bisa dilihat di /PostController.php
-    ]);
-});
+// Route::get('/authors/{author:username}', function (User $author) {
+//     return view('posts', [
+//         'title' => "Post by Author : $author->name",
+//         'active' => 'posts',
+//         'posts' => $author->posts->load('category', 'author'),
+//         //fitur contoh eager loading bisa dilihat di /PostController.php
+//     ]);
+// });
