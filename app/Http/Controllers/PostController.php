@@ -32,7 +32,12 @@ class PostController extends Controller
             "title" => "All Posts" . $title,
             'active' => 'posts',
             //active untuk semua halaman posts
-            "posts" => Post::latest()->filter(request(['search', 'category','author']))->get()
+            "posts" => Post::latest()->filter(request(['search', 'category','author']))->paginate(7)->withQueryString()
+
+            //method get() diganti paginate untuk menambahkan fitur pagination
+            //Apapun yang ada diQueryString sebelumnya bawa contohnya kita sedang memfilter berdasarkan category
+            //maka link untuk pagination tersebut tidak akan mereset ke All Post lagi  
+
             // "posts" => Post::with('author','category')->latest()->get()
             //dengan with() memeungkinkan untuk memanggil query Post sekaligus author dan category
             //sehingga bisa mempersingkat proses yang dinamakan eagle Loading
