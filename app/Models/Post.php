@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Clockwork\Storage\Search;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +22,39 @@ class Post extends Model
         //contoh LazyEagerLoading bisa dilihat di /web.php
 
 
-    
+    public function scopeFilter($query, array $filters)
+    {
+        // '?' kalau ada maka ambil apapun yang ada di searchnya ':' kalau tidak ada maka tampilkan false atau wherenya tidak dijalankan
+        // if (isset ($filters['search']) ? $filters('search') : false) {
+        //     $query->where('title', 'like', '%' . $filters('search') . '%')
+        //     ->orWhere('body', 'like', '%' . $filters('search') . '%');
+        // }
+
+        //mencari berdasarkan search di all post
+        //'??' jika ada jalankan jika tidak ada false atau tidak dijalankan
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query->where('title', 'like', '%' . $search . '%')
+            ->orWhere('body', 'like', '%' . $search . '%');
+        });
+        
+        //mencari berdasarkan search di dalam post yang sudah ada cateogorynya 
+        //versi callback
+        $query->when($filters['category'] ?? false, function($query, $category){
+            return $query->whereHas('category', function($query) use ($category){
+                $query->where('slug', $category);
+            });
+        });
+
+        //sama seperti category hanya saja ini filter author
+        //'fn' adalah arrow function
+        $query->when($filters['author'] ?? false, fn($query, $author) =>
+            $query->whereHas('author', fn($query) => /*use ($author) jika menggunakan arrow function maka tidak perlu menggunakan ini karena query scopenya sudah mencari diatasnya*/
+                $query->where('username', $author)
+            )
+        );
+
+    }
+
         
     //menghubungkan tabel : mengembalikan nilai, 1 Post hanya Memiliki 1 Category
     public function category(){
