@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Models\category;
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,6 +49,7 @@ Route::get('/categories', function () {
     ]);
 });
 
+
 //dibawah ini tidak terpakai karena sudah digantikan di PostController
 
 // Route::get('/categories/{category:slug}', function (Category $category) {
@@ -71,3 +72,10 @@ Route::get('/categories', function () {
 //         //fitur contoh eager loading bisa dilihat di /PostController.php
 //     ]);
 // });
+
+
+// Router untuk login
+Route::get('/login', [LoginController::class, 'index']);
+
+// Router untuk register
+Route::get('/register', [RegisterController::class, 'index']);
