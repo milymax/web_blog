@@ -15,4 +15,16 @@ class RegisterController extends Controller
             'active' => 'register'
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255', //tulis dengan tanda pipe
+            'username' => ['required', 'min:3', 'max:255', 'unique:users'], //ataupun array sama saja
+            'email' => 'required|email:dns|unique:users',
+            'password' => 'required|min:6|max:255'
+        ]);
+
+        dd('registrasi berhasil!!!');
+    }
 }

@@ -79,3 +79,5 @@ Route::get('/login', [LoginController::class, 'index']);
 
 // Router untuk register
 Route::get('/register', [RegisterController::class, 'index']);
+// Router untuk register
+Route::post('/register', [RegisterController::class, 'store']);
