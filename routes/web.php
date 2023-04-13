@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Models\category;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 
@@ -76,12 +77,18 @@ Route::get('/categories', function () {
 
 
 // Router untuk login
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');//hanya penamaan dimana route login itu
+//kenapa ada route dengan nama login ? coba cek di authenticate.php di App\Http\Middleware\Authenticate.php 
+//pemberian name digunakan untuk menamai route dengan link apapun itu 
+//middleware('guest') : hanya bisa diakses oleh user yang belum login/ter-authentikasi
 Route::post('/login', [LoginController::class, 'authenticate']);
+//logout
+Route::post('/logout', [LoginController::class, 'logout']);
 
 // Router untuk register
 Route::get('/register', [RegisterController::class, 'index']);
 // Router untuk register
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+//middleware('auth') : hanya bisa diakses oleh user yang sudah login/ter-authentikasi

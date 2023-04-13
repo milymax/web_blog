@@ -12,6 +12,7 @@
               <form action="/register" method="post">
                 @csrf 
                 {{-- csrf untuk mengenerate token agar tidak terjadi cross-site lihat di dokumentasi laravel --}}
+                {{-- Token tersebut berfungsi untuk menentukan apakah permintaan yang masuk berasal dari pengguna yang memiliki otoritas atau bukan --}}
                 <div class="form-floating">
                   <input type="text" name="name" class="form-control rounded-top @error ('name') is-invalid @enderror" id="name" placeholder="Name" required value="{{ old('name') }}"> 
                   {{-- value old name digunakan agar user tidak perlu mengisikan kembali nilai yang mereka inputkan sebelumnya / tidak di reset kosong lagi --}}

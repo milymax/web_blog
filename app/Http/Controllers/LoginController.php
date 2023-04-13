@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -32,5 +33,17 @@ class LoginController extends Controller
         //jika tidak berhasil maka akan di return back ke halaman login
         return back()->with('loginError', 'Login Failed!');
         // dd('berhasil login');
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        //invalidate supaya gabisa dipake 
+        $request->session()->invalidate();
+        // regenerate supaya tidak dibajak
+        $request->session()->regenerateToken();
+        //redirect kehalaman yang kita mau contoh ke halaman home('/')
+        return redirect('/');
     }
 }
