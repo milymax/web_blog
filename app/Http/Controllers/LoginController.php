@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -12,5 +13,24 @@ class LoginController extends Controller
             'title' => 'Login',
             'active' => 'login'
         ]);
+    }
+
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email:dns',
+            'password' => 'required'
+        ]);
+
+        //jika percobaan login dari $creadentials itu berhasil kita pindahkan ke halaman dashboard
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
+            //The intended method provided by Laravel's redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. 
+            //intended itu supaya melewati middleware terlebih dahulu
+        }
+        //jika tidak berhasil maka akan di return back ke halaman login
+        return back()->with('loginError', 'Login Failed!');
+        // dd('berhasil login');
     }
 }

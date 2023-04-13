@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Models\category;
 use Illuminate\Support\Facades\Route;
 
@@ -76,8 +77,11 @@ Route::get('/categories', function () {
 
 // Router untuk login
 Route::get('/login', [LoginController::class, 'index']);
+Route::post('/login', [LoginController::class, 'authenticate']);
 
 // Router untuk register
 Route::get('/register', [RegisterController::class, 'index']);
 // Router untuk register
 Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
