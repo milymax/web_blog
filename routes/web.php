@@ -90,5 +90,7 @@ Route::get('/register', [RegisterController::class, 'index']);
 // Router untuk register
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', function(){
+    return view('dashboard.index');
+})->middleware('auth');
 //middleware('auth') : hanya bisa diakses oleh user yang sudah login/ter-authentikasi
