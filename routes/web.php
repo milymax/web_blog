@@ -3,7 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardPostController;
 use App\Models\category;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +41,7 @@ Route::get('/posts', [PostController::class, 'index']);
 
 
 // halaman single post
+// route model binding = post:slug -> untuk mengubah pencarian dari default id menjadi slug
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
 Route::get('/categories', function () {
@@ -94,3 +95,6 @@ Route::get('/dashboard', function(){
     return view('dashboard.index');
 })->middleware('auth');
 //middleware('auth') : hanya bisa diakses oleh user yang sudah login/ter-authentikasi
+
+//route resource DashboardPostController : tidak perlu membuat 1 1 jika memakai resource
+Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth');

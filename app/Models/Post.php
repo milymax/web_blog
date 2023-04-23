@@ -68,4 +68,15 @@ class Post extends Model
     public function author(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+ * Get the route key for the model.
+ */
+    //membuat setiap route mencari slug bukan id
+    //membuat slug itu menjadi nilai default untuk pencarian
+    //jadi meskipun tidak memakai route model binding yang dicari itu otomatis slug karena diubah menggunakan fungsi dibawah 
+    public function getRouteKeyName(): string
+    {
+    return 'slug';
+    }
 }
